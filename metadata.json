@@ -1,0 +1,7 @@
+{
+  "name": "FixTrace - Appliance Repair Intelligence",
+  "description": "Mobile-first AI-powered appliance repair intelligence platform with digital Repair Passports, diagnostic intake, and quotes.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

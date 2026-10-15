@@ -1,0 +1,278 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User account and profile details",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["customer", "technician", "shop", "admin"] },
+        "phone": { "type": "string" },
+        "city": { "type": "string" },
+        "pincode": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Appliance": {
+      "title": "Appliance",
+      "description": "Registered household appliance with unique Repair Passport",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "brand": { "type": "string" },
+        "modelNumber": { "type": "string" },
+        "serialNumber": { "type": "string" },
+        "purchaseDate": { "type": "string" },
+        "purchasePrice": { "type": "number" },
+        "locationTag": { "type": "string" },
+        "warrantyDetails": { "type": "string" },
+        "warrantySource": { "type": "string", "enum": ["customer", "technician", "none"] },
+        "warrantyExpiryDate": { "type": "string" },
+        "isPublicPassport": { "type": "boolean" },
+        "photos": { "type": "array" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "ownerId", "name", "category", "brand"]
+    },
+    "DiagnosticReport": {
+      "title": "DiagnosticReport",
+      "description": "AI-assisted preliminary diagnostic analysis",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "applianceId": { "type": "string" },
+        "userId": { "type": "string" },
+        "category": { "type": "string" },
+        "symptomsText": { "type": "string" },
+        "summary": { "type": "string" },
+        "plausibleCauses": { "type": "array" },
+        "safetyHazards": { "type": "array" },
+        "safeChecks": { "type": "array" },
+        "technicianNextSteps": { "type": "array" },
+        "confidenceLevel": { "type": "string" },
+        "confidenceExplanation": { "type": "string" },
+        "recommendedSkills": { "type": "string" },
+        "missingInformation": { "type": "string" },
+        "isAiPreliminary": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "category", "symptomsText"]
+    },
+    "RepairRequest": {
+      "title": "RepairRequest",
+      "description": "Service request submitted by customer",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "applianceId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "diagnosticReportId": { "type": "string" },
+        "applianceName": { "type": "string" },
+        "applianceCategory": { "type": "string" },
+        "applianceBrand": { "type": "string" },
+        "applianceModel": { "type": "string" },
+        "symptoms": { "type": "string" },
+        "serviceAddress": { "type": "string" },
+        "city": { "type": "string" },
+        "pincode": { "type": "string" },
+        "preferredWindow": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "submitted",
+            "reviewed",
+            "quoted",
+            "accepted",
+            "scheduled",
+            "in_progress",
+            "completed",
+            "cancelled",
+            "unable_to_complete"
+          ]
+        },
+        "assignedTechnicianId": { "type": "string" },
+        "assignedShopId": { "type": "string" },
+        "acceptedQuoteId": { "type": "string" },
+        "scheduledDate": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "applianceId", "customerId", "status"]
+    },
+    "RepairQuote": {
+      "title": "RepairQuote",
+      "description": "Itemized repair estimate submitted by a technician",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "requestId": { "type": "string" },
+        "technicianId": { "type": "string" },
+        "technicianName": { "type": "string" },
+        "shopId": { "type": "string" },
+        "partsCost": { "type": "number" },
+        "laborCost": { "type": "number" },
+        "inspectionFee": { "type": "number" },
+        "otherFees": { "type": "number" },
+        "totalCost": { "type": "number" },
+        "estimatedHours": { "type": "number" },
+        "warrantyTerms": { "type": "string" },
+        "validUntil": { "type": "string" },
+        "notes": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "declined", "expired"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "requestId", "technicianId", "totalCost", "status"]
+    },
+    "RepairRecord": {
+      "title": "RepairRecord",
+      "description": "Technician-certified completed service record on the Repair Passport",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "requestId": { "type": "string" },
+        "applianceId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "technicianId": { "type": "string" },
+        "technicianName": { "type": "string" },
+        "shopId": { "type": "string" },
+        "confirmedDiagnosis": { "type": "string" },
+        "replacedParts": { "type": "array" },
+        "laborCost": { "type": "number" },
+        "partsCost": { "type": "number" },
+        "totalCost": { "type": "number" },
+        "warrantyMonths": { "type": "number" },
+        "warrantyTerms": { "type": "string" },
+        "maintenanceTips": { "type": "string" },
+        "beforePhotos": { "type": "array" },
+        "afterPhotos": { "type": "array" },
+        "customerSignoff": { "type": "boolean" },
+        "completedAt": { "type": "string" }
+      },
+      "required": ["id", "applianceId", "confirmedDiagnosis", "totalCost", "completedAt"]
+    },
+    "TechnicianProfile": {
+      "title": "TechnicianProfile",
+      "description": "Service technician credentials and status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "shopId": { "type": "string" },
+        "categories": { "type": "array" },
+        "experienceYears": { "type": "number" },
+        "verificationStatus": { "type": "string", "enum": ["unverified", "pending", "verified", "rejected"] },
+        "completedJobs": { "type": "number" },
+        "rating": { "type": "number" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "name", "verificationStatus"]
+    },
+    "RepairShop": {
+      "title": "RepairShop",
+      "description": "Local repair enterprise managing technicians",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "city": { "type": "string" },
+        "pincode": { "type": "string" },
+        "categories": { "type": "array" },
+        "technicianIds": { "type": "array" },
+        "isVerified": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "ownerId", "name", "city"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "In-app notifications for users",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "type": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "link": { "type": "string" },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "title", "message", "read"]
+    },
+    "AuditEvent": {
+      "title": "AuditEvent",
+      "description": "Platform audit log entries",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "actorId": { "type": "string" },
+        "actorRole": { "type": "string" },
+        "action": { "type": "string" },
+        "entityType": { "type": "string" },
+        "entityId": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "metadata": { "type": "object" }
+      },
+      "required": ["id", "actorId", "action", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and credentials"
+    },
+    "/appliances/{applianceId}": {
+      "schema": "Appliance",
+      "description": "Registered appliances and digital passports"
+    },
+    "/diagnosticReports/{reportId}": {
+      "schema": "DiagnosticReport",
+      "description": "AI diagnostic intake analyses"
+    },
+    "/repairRequests/{requestId}": {
+      "schema": "RepairRequest",
+      "description": "Repair service requests and workflows"
+    },
+    "/repairQuotes/{quoteId}": {
+      "schema": "RepairQuote",
+      "description": "Itemized repair quotes"
+    },
+    "/repairRecords/{recordId}": {
+      "schema": "RepairRecord",
+      "description": "Certified repair records"
+    },
+    "/technicians/{technicianId}": {
+      "schema": "TechnicianProfile",
+      "description": "Technician profiles and verification"
+    },
+    "/repairShops/{shopId}": {
+      "schema": "RepairShop",
+      "description": "Local repair shops"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "In-app notifications"
+    },
+    "/auditEvents/{eventId}": {
+      "schema": "AuditEvent",
+      "description": "System audit trail"
+    }
+  }
+}
